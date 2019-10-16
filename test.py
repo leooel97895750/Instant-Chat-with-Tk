@@ -4,12 +4,5 @@ Created on Tue Oct 15 15:42:43 2019
 
 @author: leooe
 """
-
-from tkinter import *
-root = Tk()
-ncnu = PhotoImage(file="anime.png")
-text = Text(root)
-text.image_create(END, image=ncnu)
-text.insert(END, "\nNCNU LOGO\n")
-text.pack()
-root.mainloop()
+mydict = {567:'Leo', 789:'Tony'}
+print(list(mydict.keys())[list(mydict.values()).index('Le')])
