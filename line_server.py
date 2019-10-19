@@ -32,26 +32,28 @@ def subThread(connection, myfileno):
     updateDict()
     
     while True:
-        # 接收使用者傳來的編號和訊息
-        msg = connection.recv(65536).decode('UTF-8')
-        msgType = msg.split()
-        
-        # 在server上顯示的系統訊息
-        print(myNameDict[myfileno], ':', msg)
-        
-        if msgType[0] == "roomOpen":
-            print(msgType[1])
-            mySockDict[int(msgType[1].split(':')[1])].sendall(msg.encode('UTF-8'))
+        try:
+            # 接收使用者傳來的編號和訊息
+            msg = connection.recv(65536).decode('UTF-8')
+            msgType = msg.split()
             
-        # 傳送給特定使用者的私人訊息
-        elif msgType[0] == "messagePass":
-            mySockDict[int(msgType[1].split(':')[1])].sendall(msg.encode('UTF-8'))
-        
-        elif msgType[0] == "deleteDict":
-            del myNameDict[int(msgType[1])]
-            del mySockDict[int(msgType[1])]
-            updateDict()
-
+            # 在server上顯示的系統訊息
+            print(myNameDict[myfileno], ':', msg)
+            
+            if msgType[0] == "roomOpen":
+                print(msgType[1])
+                mySockDict[int(msgType[1].split(':')[1])].sendall(msg.encode('UTF-8'))
+                
+            # 傳送給特定使用者的私人訊息
+            elif msgType[0] == "messagePass":
+                mySockDict[int(msgType[1].split(':')[1])].sendall(msg.encode('UTF-8'))
+            
+            elif msgType[0] == "deleteDict":
+                del myNameDict[int(msgType[1])]
+                del mySockDict[int(msgType[1])]
+                updateDict()
+        except:
+            break
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.bind(('127.0.0.1', 12345))

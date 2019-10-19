@@ -36,10 +36,13 @@ def recvThread():
         # 其他使用者的訊息
         if msgType[0] == 'messagePass': 
             global rooms
-    
-            # 顯示對方的訊息
-            rooms[msgType[2]].message.insert(END, msgType[3]+'\n', "tagOther")
-            rooms[msgType[2]].message.see(END)
+            
+            try:
+                # 顯示對方的訊息
+                rooms[msgType[2]].message.insert(END, otherMsg[otherMsg.index(msgType[3]):]+'\n', "tagOther")
+                rooms[msgType[2]].message.see(END)
+            except:
+                pass
         
         # 被通知開啟聊天室
         elif msgType[0] == 'roomOpen':
